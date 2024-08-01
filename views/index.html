@@ -1,0 +1,62 @@
+<html>
+
+<head>
+  <title>Available Streams</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link href=data: rel=icon>
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+
+<body>
+
+  <h1>Available Streams</h1>
+  <ul id="streams-list">
+  </ul>
+
+  <script>
+  
+function populateStreamsList(data) {
+
+  const streams_list = document.getElementById("streams-list");
+  
+  const parser = new DOMParser();
+  const htmlData = parser.parseFromString(data, 'text/html');
+  
+  for (const elem of htmlData.getElementsByTagName('a')) {
+    console.log(elem);
+    //console.log(elem.text);
+    
+    // skip elements that aren't streams
+    if (!elem.text.endsWith(".m3u8")) continue;
+    
+    const availstr_a = document.createElement("a");
+    availstr_a.text = elem.text.replaceAll(".m3u8", "");
+    availstr_a.href = "/stream?sid=" + availstr_a.text;
+    const availstr_li = document.createElement("li");
+    availstr_li.appendChild(availstr_a);
+
+    document.getElementById("streams-list").appendChild(availstr_li);
+  }
+  
+}
+
+function httpGetAsync(theUrl, callback) {
+  var xmlHttp = new XMLHttpRequest();
+  xmlHttp.onreadystatechange = function() { 
+    if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
+      console.log(xmlHttp.status);
+      callback(xmlHttp.responseText);
+    }
+  }
+  xmlHttp.open("GET", theUrl, true); // true for asynchronous 
+  xmlHttp.send(null);
+}
+
+window.onload = function(e) { 
+  httpGetAsync("/streams/", populateStreamsList);
+}
+
+  </script>
+</body>
+
+</html>

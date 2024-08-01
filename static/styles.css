@@ -1,0 +1,24 @@
+body{
+  margin:auto;
+  padding:2em;
+  max-width:60em;
+  font:18px monospace;
+  color:#fff;
+  background:#1a2126;
+  line-height:150%
+}
+
+*::selection{
+  background:#00bcd4;
+  color:#1a2126
+}
+
+a{
+  color:#0df;
+  text-decoration:none
+}
+
+a:hover{
+  font-weight:bold;
+  color:#f04
+}

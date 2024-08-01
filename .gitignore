@@ -1,0 +1,4 @@
+camwatchdog/__pycache__/
+camwatchdog/secrets_env.py
+.htpasswd
+.env
